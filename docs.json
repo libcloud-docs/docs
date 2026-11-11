@@ -1,0 +1,91 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "LibCloud",
+  "description": "Documentação da plataforma de hospedagem LibCloud.",
+  "colors": {
+    "primary": "#8B5CF6",
+    "light": "#A78BFA",
+    "dark": "#7C3AED"
+  },
+  "appearance": {
+    "default": "dark"
+  },
+  "icons": {
+    "library": "lucide"
+  },
+  "favicon": "/favicon.svg",
+  "navigation": {
+    "groups": [
+      {
+        "group": "Começar",
+        "pages": [
+          "index",
+          "quickstart"
+        ]
+      },
+      {
+        "group": "Hospedagem",
+        "pages": [
+          "bot-controls",
+          "files-and-dependencies",
+          "plans-and-usage",
+          "billing"
+        ]
+      },
+      {
+        "group": "Desenvolvedores",
+        "pages": [
+          "api/index"
+        ]
+      }
+    ]
+  },
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg",
+    "href": "https://cloud.libgroup.site"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Suporte",
+        "href": "https://cloud.libgroup.site/#suporte"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Abrir dashboard",
+      "href": "https://cloud.libgroup.site/#dashboard"
+    }
+  },
+  "footer": {
+    "links": [
+      {
+        "header": "LibCloud",
+        "items": [
+          { "label": "Dashboard", "href": "https://cloud.libgroup.site/#dashboard" },
+          { "label": "Planos", "href": "https://cloud.libgroup.site/#planos" }
+        ]
+      },
+      {
+        "header": "Ajuda",
+        "items": [
+          { "label": "Suporte", "href": "mailto:cloud@libgroup.site" }
+        ]
+      }
+    ]
+  },
+  "contextual": {
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
+  }
+}

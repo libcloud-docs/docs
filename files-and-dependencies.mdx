@@ -1,0 +1,34 @@
+---
+title: "Arquivos e dependências"
+description: "Aprenda a importar um projeto compactado, definir a raiz e o arquivo de entrada e entender como os pacotes npm são preparados na LibCloud."
+keywords: ["arquivos", "ZIP", "package.json", "package-lock.json", "dependências"]
+---
+
+Prepare a pasta do seu bot antes de enviar para que a LibCloud encontre o arquivo de entrada e instale as dependências declaradas no projeto.
+
+## Importar um ZIP
+
+Compacte a pasta do projeto e importe o arquivo pela área **Arquivos**. O ZIP pode conter pastas e subpastas, como `src/`. Durante a importação, escolha a pasta raiz e o arquivo de entrada correto.
+
+Antes de enviar, confira se o arquivo ZIP:
+
+- contém os arquivos do projeto, não apenas atalhos para outra pasta;
+- inclui o `package.json` na raiz do projeto selecionado quando usa pacotes npm;
+- não contém `node_modules`, caches ou arquivos temporários que podem ser recriados;
+- não ultrapassa os limites de envio e código exibidos na dashboard.
+
+O `package-lock.json` é opcional. Um lockfile válido ajuda a instalar versões repetíveis; se ele estiver ausente, a LibCloud pode gerar um a partir do `package.json`.
+
+## Dependências npm
+
+Declare os pacotes usados pelo bot em `dependencies` no `package.json`. O ambiente instala dependências durante a inicialização quando necessário. Pacotes de desenvolvimento que não são necessários para executar o bot não precisam ser enviados como dependências de produção.
+
+Uma dependência importada por `require` ou `import` precisa estar declarada no projeto. Por exemplo, um bot que usa `discord.js` deve declarar `discord.js` em `dependencies`.
+
+## Arquivos individuais
+
+Você também pode editar, criar ou enviar arquivos pela interface. Salve as alterações antes de iniciar ou reiniciar o bot para que o processo use o código atualizado.
+
+## Limites
+
+O tamanho máximo do ZIP, o limite de código e o armazenamento persistente são cotas separadas e podem variar por plano. A dashboard mostra os valores aplicados à sua conta. Apagar código não necessariamente apaga os dados persistentes do bot.

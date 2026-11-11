@@ -1,0 +1,32 @@
+---
+title: "Controlar seu bot"
+description: "Consulte o estado do processo, use as ações de iniciar, parar e reiniciar e leia os logs para diagnosticar falhas na sua hospedagem LibCloud."
+keywords: ["bot", "iniciar", "parar", "reiniciar", "console", "logs"]
+---
+
+Use a dashboard para acompanhar o processo e solicitar ações sem acessar o servidor que executa a plataforma.
+
+## Estado e ações
+
+Abra **Meus bots** para consultar o estado atual. As ações disponíveis dependem do estado da hospedagem:
+
+- **Iniciar** executa o arquivo de entrada configurado.
+- **Parar** encerra o processo e mantém os arquivos e dados persistentes.
+- **Reiniciar** recria o processo com os arquivos e as variáveis salvos.
+
+Uma ação pode levar alguns instantes para aparecer como concluída. Consulte o estado novamente se a interface indicar que a operação ainda está em andamento.
+
+## Console e logs
+
+O console mostra as mensagens de saída e os erros do processo. Use essas informações para identificar falhas de inicialização ou dependências ausentes.
+
+Quando disponível, o campo de entrada envia uma linha para a entrada padrão do processo do bot. Ele só funciona se o programa estiver preparado para ler essa entrada.
+
+<Warning> A entrada atual do console não é um shell do Linux. Ela não executa comandos como `ls` ou `npm` no container. Um terminal interativo para comandos dentro do seu próprio container ainda não está disponível. </Warning>
+
+## Se o bot não iniciar
+
+1. Confira se o arquivo de entrada selecionado existe, incluindo maiúsculas e minúsculas no caminho.
+2. Verifique se o `package.json` declara os pacotes usados pelo projeto.
+3. Leia as últimas mensagens do console e corrija o erro indicado.
+4. Confira se a conta continua ativa e se o plano tem recursos disponíveis.

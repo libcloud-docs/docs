@@ -1,0 +1,27 @@
+---
+title: "Planos e consumo"
+description: "Confira onde ver as cotas e o uso amostrado de RAM, CPU e armazenamento, e entenda como os limites da sua hospedagem são aplicados."
+keywords: ["plano", "RAM", "CPU", "armazenamento", "limites"]
+---
+
+Use a visão geral da dashboard para comparar o consumo medido do seu bot com os recursos atribuídos à sua conta.
+
+## Consulte seu plano
+
+Abra **Visão geral** na dashboard para ver o plano atribuído à conta e os limites disponíveis. Os planos, preços, cotas e vagas podem ser alterados pela LibCloud; a dashboard mostra os valores atuais.
+
+## Consumo e limite
+
+O painel apresenta o uso da sua hospedagem junto do teto definido para ela:
+
+- **RAM:** memória atualmente usada pelo processo e o limite atribuído.
+- **CPU:** uso medido do processo e a cota de CPU do plano.
+- **Armazenamento:** espaço persistente usado pelo projeto e o limite atribuído.
+
+As medições são amostras coletadas pelo worker, então podem ter alguns instantes de atraso. Quando o bot está parado, os valores de CPU e RAM podem não representar o que ele usava enquanto estava em execução.
+
+## Recursos compartilhados
+
+Os limites do plano são aplicados por hospedagem. A capacidade total da VPS é compartilhada e a LibCloud reserva recursos para o sistema e para a operação da plataforma. O valor anunciado para um plano não significa que toda a capacidade física do servidor está reservada exclusivamente para uma conta.
+
+Para saber sua cota, use a dashboard. Não use os valores do hardware da VPS como se fossem os limites da sua hospedagem.

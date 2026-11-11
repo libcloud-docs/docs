@@ -1,0 +1,30 @@
+---
+title: "API para clientes"
+description: "Veja os recursos planejados para a futura API de clientes e confira o que ainda não está disponível para integrações externas da LibCloud."
+keywords: ["API", "integração", "RAM", "CPU", "bots"]
+---
+
+Esta página informa o estado atual da API de clientes. Ela ainda não descreve uma interface pronta para uso em integrações.
+
+## Disponibilidade
+
+A API pública para clientes ainda está em desenvolvimento. Ainda não há endpoints, chaves de API ou contrato estável para integrações externas.
+
+Não integre seu sistema às rotas internas usadas pela dashboard. Elas não constituem uma API pública e podem mudar sem aviso.
+
+## O que está planejado
+
+A primeira versão está sendo desenhada para permitir que cada cliente consulte e controle somente os recursos da própria conta:
+
+- plano e cotas da conta;
+- consumo de RAM, CPU e armazenamento dos próprios bots;
+- ações de parar e reiniciar;
+- acesso a um terminal restrito ao container do próprio bot.
+
+Os detalhes de autenticação, limites por plano, formatos de resposta e versão das rotas serão publicados aqui quando estiverem implementados e testados.
+
+<Warning> O campo de entrada atual do console envia texto para a entrada padrão do processo; ele não é um shell. Não use esse campo como se executasse comandos do sistema. </Warning>
+
+## Avisos sobre acesso
+
+Quando a API estiver disponível, credenciais de integração serão próprias para a conta e não substituirão o login da dashboard. Nunca coloque uma chave de API em JavaScript enviado ao navegador ou em um repositório público.

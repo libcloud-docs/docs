@@ -1,0 +1,64 @@
+---
+title: "Primeiros passos"
+description: "Configure sua conta, prepare um projeto Node.js, importe os arquivos e inicie uma hospedagem na LibCloud seguindo as etapas do primeiro acesso."
+keywords: ["primeiros passos", "hospedagem", "Node.js", "ZIP"]
+---
+
+Siga este guia para entrar na conta convidada, enviar seu projeto e iniciar o processo que executa o bot.
+
+## Antes de começar
+
+- Sua conta Google precisa ter sido convidada para o beta da LibCloud.
+- O projeto deve incluir o arquivo de entrada que será executado.
+- Se o projeto usa pacotes npm, inclua um `package.json` com as dependências.
+
+As vagas e cotas dependem do plano e da disponibilidade mostrados na dashboard.
+
+## Criar uma hospedagem
+
+<Steps>
+  <Step title="Entre na LibCloud">
+    Acesse [cloud.libgroup.site](https://cloud.libgroup.site) e escolha **Entrar com Google** usando o e-mail convidado.
+  </Step>
+  <Step title="Abra Criar hospedagem">
+    Informe um nome para seu bot. Se a conta já tiver uma hospedagem ou não houver vaga, a dashboard informa a situação antes de continuar.
+  </Step>
+  <Step title="Envie seu projeto">
+    Na área **Arquivos**, envie os arquivos do projeto ou importe um ZIP. Para ZIP, selecione a pasta raiz do projeto e o arquivo de entrada correto, inclusive se estiver em uma pasta como `src/`.
+  </Step>
+  <Step title="Configure variáveis">
+    Cadastre tokens e outras configurações secretas em **Variáveis**. Não coloque segredos no código-fonte nem no ZIP.
+  </Step>
+  <Step title="Inicie e acompanhe">
+    Inicie a hospedagem e acompanhe o console. Na primeira inicialização, o sistema pode instalar dependências declaradas no `package.json`.
+  </Step>
+</Steps>
+
+## Exemplo de projeto Node.js
+
+Uma estrutura simples pode ter o arquivo de entrada na raiz:
+
+```text
+meu-bot/
+├── index.js
+└── package.json
+```
+
+Também pode estar dentro de uma pasta:
+
+```text
+meu-bot/
+├── package.json
+└── src/
+    └── index.js
+```
+
+Ao importar um ZIP, escolha a raiz correspondente e indique o arquivo de entrada que existe nela.
+
+## Lockfile
+
+O `package-lock.json` é opcional. Se o projeto não tiver esse arquivo, a LibCloud pode gerar um lockfile durante a instalação a partir do `package.json`. Manter um lockfile válido ajuda a reproduzir as mesmas versões das dependências.
+
+## Confira as cotas
+
+Cada plano tem limites próprios de memória, CPU, armazenamento e tamanho de envio. Consulte a página [Planos e consumo](/plans-and-usage) antes de enviar um projeto grande.
