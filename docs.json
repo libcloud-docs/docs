@@ -36,7 +36,19 @@
       {
         "group": "Desenvolvedores",
         "pages": [
-          "api/index"
+          "api/index",
+          "api/limits"
+        ]
+      },
+      {
+        "group": "Referencia da API",
+        "openapi": "openapi.json",
+        "pages": [
+          "GET /me/plan",
+          "GET /bots",
+          "GET /bots/{id}/usage",
+          "POST /bots/{id}/stop",
+          "POST /bots/{id}/restart"
         ]
       }
     ]
@@ -64,14 +76,23 @@
       {
         "header": "LibCloud",
         "items": [
-          { "label": "Dashboard", "href": "https://cloud.libgroup.site/#dashboard" },
-          { "label": "Planos", "href": "https://cloud.libgroup.site/#planos" }
+          {
+            "label": "Dashboard",
+            "href": "https://cloud.libgroup.site/#dashboard"
+          },
+          {
+            "label": "Planos",
+            "href": "https://cloud.libgroup.site/#planos"
+          }
         ]
       },
       {
         "header": "Ajuda",
         "items": [
-          { "label": "Suporte", "href": "mailto:cloud@libgroup.site" }
+          {
+            "label": "Suporte",
+            "href": "mailto:cloud@libgroup.site"
+          }
         ]
       }
     ]
@@ -87,5 +108,17 @@
       "cursor",
       "vscode"
     ]
+  },
+  "api": {
+    "playground": {
+      "display": "simple"
+    },
+    "examples": {
+      "languages": [
+        "curl",
+        "javascript",
+        "python"
+      ]
+    }
   }
 }

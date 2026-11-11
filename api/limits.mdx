@@ -1,0 +1,55 @@
+---
+title: "Limites e erros da API"
+description: "Entenda as cotas por hora e por dia da conta, os cabeçalhos de consumo e o tempo de espera indicado quando a API da LibCloud responde 429."
+keywords: ["API", "rate limit", "cotas", "429", "Retry-After"]
+---
+
+A API da LibCloud aplica cotas por conta, de acordo com a versão do plano atribuído. Todos os tokens da mesma conta compartilham esses limites.
+
+## Consultar suas cotas
+
+Consulte **Configurações → API de integração** ou `GET /api/v1/me/plan`. Os campos `apiRequestsHour` e `apiRequestsDay` informam as cotas contratadas. Uma cota igual a zero desativa o acesso à API naquela versão do plano.
+
+As janelas são fixas em UTC: a janela horária reinicia no começo da hora e a diária à meia-noite UTC. Criar ou trocar um token não zera o consumo da conta. Consultas e ações contam para ambas as cotas, inclusive uma chamada autenticada para rota inexistente.
+
+Há também um limite de proteção de 120 chamadas por minuto por IP e os limites operacionais de reinício da hospedagem. Mesmo com cota disponível, uma operação pode precisar aguardar.
+
+## Cabeçalhos de resposta
+
+Depois da autenticação e do consumo de cota, a API envia:
+
+| Cabeçalho | Significado |
+| --- | --- |
+| `X-RateLimit-hour-Limit` | Cota da janela horária |
+| `X-RateLimit-hour-Remaining` | Requisições restantes nessa janela |
+| `X-RateLimit-hour-Reset` | Reinício da janela, em segundos Unix |
+| `X-RateLimit-day-Limit` | Cota da janela diária |
+| `X-RateLimit-day-Remaining` | Requisições restantes nessa janela |
+| `X-RateLimit-day-Reset` | Reinício da janela diária, em segundos Unix |
+
+Uma resposta `429` inclui `Retry-After` em segundos. Aguarde esse período antes de tentar novamente. Não repita automaticamente pedidos de reinício quando houver dúvida se o primeiro pedido foi aceito; consulte o estado do bot.
+
+## Erros
+
+Os erros retornam um objeto JSON com o campo `error`.
+
+```json
+{"error": "Token inválido."}
+```
+
+| Status | Como agir |
+| --- | --- |
+| `400` | Confira o formato da chamada; stop e restart não aceitam corpo. |
+| `401` | Confira o token e se ele foi revogado. |
+| `403` | Verifique se a conta está suspensa ou com acesso revogado. |
+| `404` | Confira a rota e o ID; recursos de outra conta também retornam 404. |
+| `409` | Aguarde uma operação pendente ou confira o estado do bot. |
+| `429` | Aguarde o tempo indicado em Retry-After. |
+| `500` | Falha ao processar o pedido. Consulte o estado antes de repetir uma ação. |
+| `503` | A API ou o worker necessário à operação está indisponível. |
+
+## Unidades e atualização das medições
+
+RAM e disco usam MiB. `percentOfOneCore` representa o percentual de um núcleo: `100` equivale a um núcleo. Já o limite `cpu` usa vCPU: `0.25` equivale a até 25% de um núcleo.
+
+Os campos `measuredAt` usam milissegundos Unix e pertencem à amostra correspondente. Uma medição pode estar antiga quando o bot está parado. Um campo de consumo `null` indica ausência de medição; não significa consumo zero.

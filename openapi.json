@@ -1,0 +1,909 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "LibCloud Customer API",
+    "version": "1.0.0",
+    "description": "API para recursos da propria conta. Tokens criados em Configuracoes na dashboard."
+  },
+  "servers": [
+    {
+      "url": "https://cloud.libgroup.site/api/v1"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Token individual criado na dashboard LibCloud."
+      }
+    }
+  },
+  "paths": {
+    "/me/plan": {
+      "get": {
+        "summary": "Consultar plano",
+        "operationId": "get_me_plan",
+        "description": "Consulta autenticada, sujeita as cotas da conta.",
+        "x-mint": {
+          "href": "/api-reference/get-me-plan"
+        },
+        "responses": {
+          "200": {
+            "description": "Resposta da API",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "type": "string",
+                      "enum": [
+                        "billing",
+                        "admin",
+                        "free"
+                      ]
+                    },
+                    "priceCents": {
+                      "type": "integer",
+                      "nullable": true
+                    },
+                    "expiresAt": {
+                      "type": "integer",
+                      "nullable": true
+                    },
+                    "mode": {
+                      "type": "string",
+                      "nullable": true,
+                      "enum": [
+                        "one_time",
+                        "subscription",
+                        null
+                      ]
+                    },
+                    "memoryMiB": {
+                      "type": "number"
+                    },
+                    "cpu": {
+                      "type": "number"
+                    },
+                    "diskMiB": {
+                      "type": "number"
+                    },
+                    "apiRequestsHour": {
+                      "type": "integer"
+                    },
+                    "apiRequestsDay": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Tempo de espera em segundos.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bots": {
+      "get": {
+        "summary": "Listar bots",
+        "operationId": "get_bots",
+        "description": "Consulta autenticada, sujeita as cotas da conta.",
+        "x-mint": {
+          "href": "/api-reference/get-bots"
+        },
+        "responses": {
+          "200": {
+            "description": "Resposta da API",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "bots": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "queued",
+                              "starting",
+                              "online",
+                              "offline",
+                              "error"
+                            ]
+                          },
+                          "action": {
+                            "type": "string",
+                            "nullable": true
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "status",
+                          "action"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Tempo de espera em segundos.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bots/{id}/usage": {
+      "get": {
+        "summary": "Consultar consumo",
+        "operationId": "get_bot_usage",
+        "description": "Retorna somente dados da propria conta. Medicoes podem estar antigas; consumo null significa ausencia de amostra.",
+        "x-mint": {
+          "href": "/api-reference/get-bot-usage"
+        },
+        "responses": {
+          "200": {
+            "description": "Resposta da API",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "botId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "memory": {
+                      "type": "object",
+                      "properties": {
+                        "usedMiB": {
+                          "type": "number"
+                        },
+                        "measuredAt": {
+                          "type": "integer"
+                        }
+                      },
+                      "nullable": true
+                    },
+                    "cpu": {
+                      "type": "object",
+                      "properties": {
+                        "percentOfOneCore": {
+                          "type": "number"
+                        },
+                        "measuredAt": {
+                          "type": "integer"
+                        }
+                      },
+                      "nullable": true
+                    },
+                    "storage": {
+                      "type": "object",
+                      "properties": {
+                        "usedMiB": {
+                          "type": "number"
+                        },
+                        "usableMiB": {
+                          "type": "number"
+                        },
+                        "measuredAt": {
+                          "type": "integer"
+                        }
+                      },
+                      "nullable": true
+                    },
+                    "limits": {
+                      "type": "object",
+                      "properties": {
+                        "memoryMiB": {
+                          "type": "number"
+                        },
+                        "cpu": {
+                          "type": "number"
+                        },
+                        "diskMiB": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Tempo de espera em segundos.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID retornado pela listagem dos bots da conta.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      }
+    },
+    "/bots/{id}/stop": {
+      "post": {
+        "summary": "Parar bot",
+        "operationId": "stop_bot",
+        "description": "Solicita a acao no bot da propria conta. Nao envie corpo. HTTP 202 indica aceite; consulte GET /bots para acompanhar.",
+        "x-mint": {
+          "href": "/api-reference/stop-bot"
+        },
+        "responses": {
+          "202": {
+            "description": "Resposta da API",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accepted": {
+                      "type": "boolean"
+                    },
+                    "botId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "action": {
+                      "type": "string",
+                      "enum": [
+                        "stop"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "accepted",
+                    "botId",
+                    "action"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Tempo de espera em segundos.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID retornado pela listagem dos bots da conta.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      }
+    },
+    "/bots/{id}/restart": {
+      "post": {
+        "summary": "Reiniciar bot",
+        "operationId": "restart_bot",
+        "description": "Solicita a acao no bot da propria conta. Nao envie corpo. HTTP 202 indica aceite; consulte GET /bots para acompanhar.",
+        "x-mint": {
+          "href": "/api-reference/restart-bot"
+        },
+        "responses": {
+          "202": {
+            "description": "Resposta da API",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accepted": {
+                      "type": "boolean"
+                    },
+                    "botId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "action": {
+                      "type": "string",
+                      "enum": [
+                        "restart"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "accepted",
+                    "botId",
+                    "action"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Tempo de espera em segundos.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Erro: consulte limites e erros da API.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID retornado pela listagem dos bots da conta.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

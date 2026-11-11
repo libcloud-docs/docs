@@ -1,30 +1,58 @@
 ---
 title: "API para clientes"
-description: "Veja os recursos planejados para a futura API de clientes e confira o que ainda não está disponível para integrações externas da LibCloud."
-keywords: ["API", "integração", "RAM", "CPU", "bots"]
+description: "Integre sua aplicação à LibCloud para consultar plano, consumo e bots da própria conta e solicitar parada ou reinício usando um token individual."
+keywords: ["API", "token", "integração", "RAM", "CPU", "bots"]
 ---
 
-Esta página informa o estado atual da API de clientes. Ela ainda não descreve uma interface pronta para uso em integrações.
+A API v1 da LibCloud permite acompanhar e controlar as hospedagens da sua conta a partir do servidor da sua integração. Todas as chamadas usam HTTPS e um token criado na dashboard.
 
-## Disponibilidade
+## Comece pela autenticação
 
-A API pública para clientes ainda está em desenvolvimento. Ainda não há endpoints, chaves de API ou contrato estável para integrações externas.
+1. Abra **Configurações → API de integração** na dashboard.
+2. Informe um nome para a integração e clique em **Criar token**.
+3. Copie o token exibido e guarde-o em uma variável de ambiente no seu servidor. Ele só aparece uma vez.
+4. Envie o cabeçalho `Authorization: Bearer` em cada chamada.
 
-Não integre seu sistema às rotas internas usadas pela dashboard. Elas não constituem uma API pública e podem mudar sem aviso.
+Você pode manter até cinco tokens ativos. Os tokens permitem consultar plano e consumo e solicitar parada ou reinício dos seus bots. Revogue um token na mesma tela para interromper seu acesso imediatamente. Uma conta suspensa ou com acesso revogado também perde acesso à API.
 
-## O que está planejado
+<Warning> O token funciona como uma senha da integração. Não coloque o segredo em URLs, código público ou JavaScript enviado ao navegador. </Warning>
 
-A primeira versão está sendo desenhada para permitir que cada cliente consulte e controle somente os recursos da própria conta:
+## Primeira consulta
 
-- plano e cotas da conta;
-- consumo de RAM, CPU e armazenamento dos próprios bots;
-- ações de parar e reiniciar;
-- acesso a um terminal restrito ao container do próprio bot.
+Use o token salvo no ambiente, sem escrevê-lo diretamente no comando:
 
-Os detalhes de autenticação, limites por plano, formatos de resposta e versão das rotas serão publicados aqui quando estiverem implementados e testados.
+```bash
+curl --fail-with-body \
+  -H "Authorization: Bearer $LIBCLOUD_TOKEN" \
+  https://cloud.libgroup.site/api/v1/bots
+```
 
-<Warning> O campo de entrada atual do console envia texto para a entrada padrão do processo; ele não é um shell. Não use esse campo como se executasse comandos do sistema. </Warning>
+Uma conta sem hospedagem retorna:
 
-## Avisos sobre acesso
+```json
+{"bots": []}
+```
 
-Quando a API estiver disponível, credenciais de integração serão próprias para a conta e não substituirão o login da dashboard. Nunca coloque uma chave de API em JavaScript enviado ao navegador ou em um repositório público.
+Se houver hospedagem, a lista contém `id`, `name`, `status` e `action`. Use o `id` retornado nas chamadas de consumo e controle.
+
+## Recursos disponíveis
+
+A base é `https://cloud.libgroup.site/api/v1`.
+
+| Método e rota | Resultado |
+| --- | --- |
+| `GET /me/plan` | Plano da conta, validade, limites e cotas API |
+| `GET /bots` | Lista de bots da conta e estado de cada um |
+| `GET /bots/{id}/usage` | Consumo de RAM, CPU e armazenamento com horários de medição |
+| `POST /bots/{id}/stop` | Solicita parada do bot |
+| `POST /bots/{id}/restart` | Solicita reinício do bot |
+
+As operações POST não aceitam corpo. Uma resposta `202` confirma que a ação foi aceita, e não que o processo terminou. Consulte `GET /bots` para acompanhar o resultado. Se já existir uma operação pendente, a API pode responder `409`.
+
+A [referência de endpoints](/api-reference/get-me-plan) detalha os parâmetros e formatos de resposta. Consulte também [limites e erros](/api/limits).
+
+## Permissões
+
+Cada token só acessa os bots da conta que o criou. Um identificador de outro cliente retorna `404`. O token não abre uma sessão na dashboard nem autoriza operações administrativas.
+
+Shell interativo ainda não está disponível na API v1. O console atual da dashboard envia texto para a entrada padrão do processo, quando o bot está preparado para recebê-lo.
