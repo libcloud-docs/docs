@@ -30,7 +30,9 @@
           "bot-controls",
           "files-and-dependencies",
           "plans-and-usage",
-          "billing"
+          "billing",
+          "templates",
+          "alerts-and-maintenance"
         ]
       },
       {

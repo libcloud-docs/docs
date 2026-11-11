@@ -1,0 +1,63 @@
+---
+title: "Começar com um template"
+description: "Aplique uma base de Ticket Bot, Music Bot ou Admin Bot na sua hospedagem, configure as variáveis necessárias e inicie o projeto na LibCloud."
+keywords: ["templates", "ticket bot", "music bot", "admin bot", "Discord"]
+---
+
+Os templates da LibCloud criam uma base editável para seu bot Discord. Você precisa criar uma aplicação e um bot no Discord e configurar o token da sua própria aplicação.
+
+## Aplicar na hospedagem
+
+1. Pare o bot em **Meus bots**.
+2. Abra **Arquivos** e exporte seu código atual se quiser guardá-lo.
+3. Salve ou descarte alterações que estejam apenas no editor.
+4. Em **Templates de projetos**, escolha a base e confirme a substituição.
+5. Abra **Variáveis** e configure os nomes indicados pelo template.
+6. Convide o bot ao seu servidor com os escopos `bot` e `applications.commands` e as permissões necessárias.
+7. Inicie a hospedagem e confira as mensagens do Console.
+
+<Warning> Aplicar um template substitui o código salvo. Os comandos slash são registrados no servidor indicado por GUILD_ID e substituem os comandos anteriores dessa aplicação nesse servidor. Use uma aplicação Discord dedicada ao template. </Warning>
+
+O token deve ficar em **Variáveis**, nunca nos arquivos. Os templates respeitam os limites de código, salvamento, memória, CPU e disco da hospedagem. Dependências são instaladas na inicialização quando necessário.
+
+## Ticket Bot
+
+O Ticket Bot publica um painel com botão para abrir atendimento. Cada atendimento usa um canal privado para o autor, a equipe configurada e o bot.
+
+Configure:
+
+- `DISCORD_TOKEN`: token do seu bot Discord.
+- `GUILD_ID`: identificador do servidor Discord.
+- `SUPPORT_ROLE_ID`: identificador do cargo da equipe de atendimento.
+
+O bot precisa ver canais, enviar mensagens, ler o histórico e gerenciar canais. A equipe deve usar o cargo configurado ou ter permissão para gerenciar canais.
+
+Use `/ticket-panel` para publicar o painel. O botão de encerramento exige confirmação e apaga o canal do atendimento. Este template não exporta transcrições automaticamente.
+
+## Music Bot
+
+O Music Bot reproduz arquivos **Ogg com áudio Opus**, enviados como anexo do próprio Discord. O template não inclui reprodução de links de YouTube ou Spotify.
+
+Configure `DISCORD_TOKEN` e `GUILD_ID`. O bot precisa ver o canal, conectar e falar. A hospedagem também precisa de autorização de voz pela equipe LibCloud; a tela de templates informa quando essa autorização está pendente.
+
+Entre em um canal de voz e use:
+
+- `/play arquivo`: adicionar um arquivo Ogg/Opus de até 20 MiB.
+- `/pause` e `/resume`: pausar e continuar.
+- `/skip`: pular para o próximo áudio.
+- `/queue`: consultar a fila.
+- `/stop`: limpar a fila e sair do canal.
+
+A fila permite até 20 áudios aguardando. Para controlar a reprodução, entre no mesmo canal de voz do bot. Um arquivo com extensão `.ogg` que use outro codec pode não reproduzir; confira o Console se houver erro.
+
+## Admin Bot
+
+O Admin Bot modera o seu servidor Discord. Ele não concede acesso administrativo à plataforma LibCloud.
+
+Configure `DISCORD_TOKEN` e `GUILD_ID`. O bot precisa gerenciar mensagens e moderar membros, além de ver canais e enviar mensagens.
+
+- `/ping`: consultar a latência.
+- `/limpar quantidade`: remover entre 1 e 100 mensagens recentes; mensagens com mais de 14 dias são preservadas.
+- `/timeout membro minutos`: aplicar timeout de 1 a 1.440 minutos.
+
+Os comandos verificam as permissões de quem os executa e a hierarquia de cargos. Posicione o cargo do bot acima dos membros que ele poderá moderar e conceda somente as permissões necessárias.

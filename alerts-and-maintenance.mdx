@@ -1,0 +1,37 @@
+---
+title: "Alertas e manutenção"
+description: "Entenda os avisos de consumo, erros, vencimento e manutenção da LibCloud, e saiba quando uma operação pode ficar temporariamente indisponível."
+keywords: ["alertas", "manutenção", "memória", "CPU", "disco", "vencimento"]
+---
+
+A LibCloud mostra alertas na sua dashboard quando detecta condições que precisam de atenção. Eles ajudam a identificar problemas antes de novas tentativas de deploy ou do vencimento do plano.
+
+## Alertas da hospedagem
+
+Os avisos podem indicar:
+
+- memória acima de 85% da cota em três medições recentes;
+- CPU acima de 90% da cota em três medições recentes;
+- armazenamento acima de 85% do limite;
+- processo encerrado com erro ou falta de memória;
+- plano que vence dentro de três dias.
+
+As condições são verificadas periodicamente. Uma condição que continua ativa permanece como um único alerta e é encerrada quando deixa de existir. Consulte o Console para erros do processo e **Faturamento** para vencimentos.
+
+## E-mail
+
+Quando a LibCloud habilitar o serviço de envio, os alertas também poderão chegar ao e-mail associado à conta. O envio tem limite de cinco mensagens por conta por dia e intervalo mínimo de 30 minutos entre mensagens, evitando avisos repetidos.
+
+O envio externo depende de configuração pela equipe LibCloud. Enquanto estiver desativado ou indisponível, confira os avisos diretamente na dashboard. Não envie senhas ou tokens em respostas a alertas.
+
+## Manutenção programada
+
+O aviso informa título, período e mensagem da equipe. Durante a janela, determinadas operações podem ficar pausadas:
+
+- novas hospedagens e contratações;
+- início e reinício de bots;
+- importação de ZIP e aplicação de templates.
+
+O bloqueio também vale para operações solicitadas pela API. Os bots que já estavam em execução não são parados automaticamente pela manutenção. Renovações de plano e suporte continuam disponíveis.
+
+Uma operação de deploy que já estava na fila pode aguardar o fim da janela. Confira o aviso e tente novamente após o horário indicado. A equipe também pode cancelar a manutenção antecipadamente.
