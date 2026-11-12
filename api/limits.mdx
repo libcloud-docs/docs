@@ -8,7 +8,7 @@ A API da LibCloud aplica cotas por conta, de acordo com a versão do plano atrib
 
 ## Consultar suas cotas
 
-Consulte **Configurações → API de integração** ou `GET /api/v1/me/plan`. Os campos `apiRequestsHour` e `apiRequestsDay` informam as cotas contratadas. Uma cota igual a zero desativa o acesso à API naquela versão do plano.
+Consulte **API** ou `GET /api/v1/me/plan`. Os campos `apiRequestsHour` e `apiRequestsDay` informam as cotas contratadas. Uma cota igual a zero desativa o acesso à API naquela versão do plano.
 
 As janelas são fixas em UTC: a janela horária reinicia no começo da hora e a diária à meia-noite UTC. Criar ou trocar um token não zera o consumo da conta. Consultas e ações contam para ambas as cotas, inclusive uma chamada autenticada para rota inexistente.
 
